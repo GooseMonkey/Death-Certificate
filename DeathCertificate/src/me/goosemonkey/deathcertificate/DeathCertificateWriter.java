@@ -70,7 +70,7 @@ public class DeathCertificateWriter
 	private String getKiller(PlayerDeathEvent event)
 	{
 		if (event.getEntity().getKiller() != null)
-			return event.getEntity().getKiller().getDisplayName();
+			return ChatColor.BOLD + event.getEntity().getKiller().getName();
 		
 		if (event.getEntity().getLastDamageCause() instanceof EntityDamageByEntityEvent)
 		{
@@ -168,7 +168,7 @@ public class DeathCertificateWriter
 		
 		i.add(ChatColor.ITALIC + "" + ChatColor.UNDERLINE + ChatColor.BLUE + "Death Certificate:" + "\n"
 				+ ChatColor.DARK_BLUE + ChatColor.BOLD + event.getEntity().getName() + "\n" + ChatColor.RESET + "\n"
-				+ ChatColor.BLACK + ChatColor.ITALIC + "Killed by\n" + ChatColor.RESET + ChatColor.RED + getKiller(event) + "\n" + ChatColor.RESET + "\n"
+				+ ChatColor.BLACK + ChatColor.ITALIC + "Killed by " + ChatColor.RESET + ChatColor.RED + getKiller(event) + "\n" + ChatColor.RESET + "\n"
 				+ ChatColor.BLACK + ChatColor.ITALIC + "On " + ChatColor.RESET + ChatColor.BLUE + dateString + "\n"
 				+ ChatColor.BLACK + ChatColor.ITALIC + "at " + ChatColor.RESET + ChatColor.DARK_BLUE + timeString);
 		
