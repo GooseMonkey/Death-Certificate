@@ -173,7 +173,7 @@ public class DeathCertificateWriter
 				+ ChatColor.BLACK + ChatColor.ITALIC + "at " + ChatColor.RESET + ChatColor.DARK_BLUE + timeString);
 		
 		i.add("Level " + ChatColor.RESET + ChatColor.DARK_GREEN + event.getEntity().getLevel() + "\n"
-				+ ChatColor.BLACK + "XP: " + ChatColor.DARK_GREEN + event.getDroppedExp());
+				+ ChatColor.BLACK + "XP: " + ChatColor.DARK_GREEN + event.getEntity().getTotalExperience());
 		
 		/*
 		 * Code to show items dropped on death. May be in a future version.
