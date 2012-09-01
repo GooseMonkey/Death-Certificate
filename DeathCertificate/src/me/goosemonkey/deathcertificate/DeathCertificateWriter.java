@@ -13,6 +13,12 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Arrow;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Fireball;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.ThrownPotion;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -66,8 +72,12 @@ public class DeathCertificateWriter
 		if (event.getEntity().getKiller() != null)
 			return event.getEntity().getKiller().getDisplayName();
 		
-		if (event.getEntity().getLastDamageCause().getEntityType().getName() != null)
-			return event.getEntity().getLastDamageCause().getEntityType().getName();
+		if (event.getEntity().getLastDamageCause() instanceof EntityDamageByEntityEvent)
+		{
+			EntityDamageByEntityEvent event2 = (EntityDamageByEntityEvent) event.getEntity().getLastDamageCause();
+			
+			return this.getFriendlyMobName(event, event2);
+		}
 		
 		switch (event.getEntity().getLastDamageCause().getCause())
 		{
@@ -92,6 +102,58 @@ public class DeathCertificateWriter
 		}
 		
 		return "Dying";
+	}
+	
+	private String getFriendlyMobName(PlayerDeathEvent event, EntityDamageByEntityEvent event2)
+	{
+		switch (event2.getDamager().getType())
+		{
+		case ARROW: 
+			if (((Arrow) event2.getDamager()).getShooter() == null)
+				return "an Arrow";
+			else if (((Arrow) event2.getDamager()).getShooter().getType() == EntityType.SKELETON)
+				return "a Skeleton";
+			else
+				return ((Player)((Arrow) event2.getDamager()).getShooter()).getName();
+		case BLAZE: return "a Blaze";
+		case CAVE_SPIDER: return "a Cave Spider";
+		case CREEPER: return "a Creeper";
+		case ENDER_DRAGON: return "the Enderdragon";
+		case ENDERMAN: return "an Enderman";
+		case FIREBALL:
+			if (((Fireball) event2.getDamager()).getShooter() == null)
+				return "a Fireball";
+			else if (((Fireball) event2.getDamager()).getShooter().getType() == EntityType.GHAST)
+				return "a Ghast";
+			else if (((Fireball) event2.getDamager()).getShooter().getType() == EntityType.BLAZE)
+				return "a Blaze";
+			else
+				return "a Fireball";
+		case FISHING_HOOK: return "a Fishing Pole";
+		case GHAST: return "a Ghast";
+		case GIANT: return "a Giant";
+		case IRON_GOLEM: return "an Iron Golem";
+		case LIGHTNING: return "Lightning";
+		case MAGMA_CUBE: return "a Magma Cube";
+		case PIG_ZOMBIE: return "a Zombie Pigman";
+		case PLAYER: return "a Player";
+		case PRIMED_TNT: return "TNT";
+		case SILVERFISH: return "a Silverfish";
+		case SKELETON: return "a Skeleton";
+		case SLIME: return "a Slime";
+		case SMALL_FIREBALL: return "a Fireball";
+		case SNOWBALL: return "a Snowball";
+		case SNOWMAN: return "a Snow Golem";
+		case SPIDER: return "a Spider";
+		case SPLASH_POTION: 
+			if (((ThrownPotion) event2.getDamager()).getShooter().getType() == EntityType.PLAYER)
+				return ((Player) ((ThrownPotion) event2.getDamager()).getShooter()).getName();
+			else
+				return "a Splash Potion";
+		case WOLF: return "a Wolf";
+		case ZOMBIE: return "a Zombie";
+		default: return "Herobrine";
+		}
 	}
 	
 	private List<String> getBookPages(PlayerDeathEvent event)
