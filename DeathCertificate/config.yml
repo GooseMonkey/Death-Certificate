@@ -1,0 +1,4 @@
+Options:
+    IgnoreSuicide: false
+    AmericanDateFormat: true
+    RequirePermission: false

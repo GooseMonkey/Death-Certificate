@@ -1,0 +1,21 @@
+name: DeathCertificate
+main: me.goosemonkey.deathcertificate.DeathCertificate
+version: 0.1
+
+author: GooseMonkey97
+website: http://dev.bukkit.org/server-mods/death-certificate/
+
+commands:
+    deathc:
+        description: Main command for all DeathCertificate-related functions
+        usage: /<command>
+        aliases: [dcertificate, deathcert, dcert, deathcertificate]
+permissions:
+    deathcertificate.drop:
+        default: false
+        description: Perm to drop a certificate. Requires Options.RequirePermission = true to work.
+    deathcertificate.admin:
+        default: op
+        description: Reload config
+        children:
+            deathcertificate.reload: true
