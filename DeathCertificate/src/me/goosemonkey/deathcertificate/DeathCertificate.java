@@ -7,7 +7,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class DeathCertificate extends JavaPlugin
 {
-	private String header = "Test Header";
+	private String header = "\nPlease see http://dev.bukkit.org/server-mods/death-certificate/pages/configuration/\n" +
+			"for configuration help! Some values may not do what you expect them to!";
 	
 	public void onEnable()
 	{
