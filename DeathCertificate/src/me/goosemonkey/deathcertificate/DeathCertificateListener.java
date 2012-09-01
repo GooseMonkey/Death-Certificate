@@ -1,6 +1,7 @@
 package me.goosemonkey.deathcertificate;
 
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -17,7 +18,7 @@ public class DeathCertificateListener implements Listener
 		writer = new DeathCertificateWriter(plugin);
 	}
 	
-	@EventHandler
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerDeath(PlayerDeathEvent event)
 	{
 		if (this.plugin.getConfig().getBoolean("Options.IgnoreSuicide") && event.getEntity().getLastDamageCause().getCause() == DamageCause.SUICIDE)
