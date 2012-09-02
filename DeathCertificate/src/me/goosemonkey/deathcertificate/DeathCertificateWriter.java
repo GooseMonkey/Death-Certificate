@@ -1,9 +1,10 @@
 package me.goosemonkey.deathcertificate;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.TimeZone;
 
 import net.minecraft.server.NBTTagCompound;
 import net.minecraft.server.NBTTagList;
@@ -160,17 +161,11 @@ public class DeathCertificateWriter
 	{
 		List<String> i = new ArrayList<String>();
 		
-		SimpleDateFormat sdf = new SimpleDateFormat(this.plugin.getConfig().getBoolean("Options.AmericanDateFormat", false) ? "MM/dd/yy" : "dd/MM/yy");
-		String dateString = sdf.format(new Date());
-	
-		SimpleDateFormat stf = new SimpleDateFormat("hh:mm aaa z");
-		String timeString = stf.format(new Date());
-		
 		i.add(ChatColor.ITALIC + "" + ChatColor.UNDERLINE + ChatColor.BLUE + "Death Certificate:" + "\n"
 				+ ChatColor.DARK_BLUE + ChatColor.BOLD + event.getEntity().getName() + "\n" + ChatColor.RESET + "\n"
 				+ ChatColor.BLACK + ChatColor.ITALIC + "Killed by " + ChatColor.RESET + ChatColor.RED + getKiller(event) + "\n" + ChatColor.RESET + "\n"
-				+ ChatColor.BLACK + ChatColor.ITALIC + "On " + ChatColor.RESET + ChatColor.BLUE + dateString + "\n"
-				+ ChatColor.BLACK + ChatColor.ITALIC + "at " + ChatColor.RESET + ChatColor.DARK_BLUE + timeString);
+				+ ChatColor.BLACK + ChatColor.ITALIC + "On " + ChatColor.RESET + ChatColor.BLUE + this.getDate() + "\n"
+				+ ChatColor.BLACK + ChatColor.ITALIC + "at " + ChatColor.RESET + ChatColor.DARK_BLUE + this.getTime());
 		
 		i.add("Level " + ChatColor.RESET + ChatColor.DARK_GREEN + event.getEntity().getLevel() + "\n"
 				+ ChatColor.BLACK + "XP: " + ChatColor.DARK_GREEN + event.getEntity().getTotalExperience());
@@ -223,5 +218,51 @@ public class DeathCertificateWriter
 		*/
 		
 		return i;
+	}
+	
+	private String getTime()
+	{
+		Calendar local = Calendar.getInstance();
+		
+		String timeZone = this.plugin.getConfig().getString("TimeAndDate.TimeZone");
+		
+		if (!timeZone.equalsIgnoreCase("Default"))
+		{
+			Calendar foreign = new GregorianCalendar(TimeZone.getTimeZone(timeZone));
+			
+			foreign.setTimeInMillis(local.getTimeInMillis());
+			
+			return (foreign.get(Calendar.HOUR) == 0 ? "12" : foreign.get(Calendar.HOUR)) + ":" +
+			(local.get(Calendar.MINUTE) < 10 ? "0" + foreign.get(Calendar.MINUTE) : foreign.get(Calendar.MINUTE)) + " " +
+			(foreign.get(Calendar.AM_PM) == Calendar.PM ? "PM" : "AM") + " " +
+			foreign.getTimeZone().getDisplayName(false, TimeZone.SHORT);
+		}
+		
+		return (local.get(Calendar.HOUR) == 0 ? "12" : local.get(Calendar.HOUR)) + ":" +
+		(local.get(Calendar.MINUTE) < 10 ? "0" + local.get(Calendar.MINUTE) : local.get(Calendar.MINUTE)) + " " +
+		(local.get(Calendar.AM_PM) == Calendar.PM ? "PM" : "AM") + " " +
+		local.getTimeZone().getDisplayName(false, TimeZone.SHORT);
+	}
+	
+	private String getDate()
+	{
+		Calendar local = Calendar.getInstance();
+		
+		String timeZone = this.plugin.getConfig().getString("TimeAndDate.TimeZone");
+		
+		if (!timeZone.equalsIgnoreCase("Default"))
+		{
+			Calendar foreign = new GregorianCalendar(TimeZone.getTimeZone(timeZone));
+			
+			foreign.setTimeInMillis(local.getTimeInMillis());
+			
+			return this.plugin.getConfig().getBoolean("TimeAndDate.AmericanDateFormat") ? 
+					(foreign.get(Calendar.MONTH) + 1) + "/" + foreign.get(Calendar.DATE) + "/" + foreign.get(Calendar.YEAR) :
+					foreign.get(Calendar.DATE) + "/" + (foreign.get(Calendar.MONTH) + 1) + "/" + foreign.get(Calendar.YEAR);
+		}
+		
+		return this.plugin.getConfig().getBoolean("TimeAndDate.AmericanDateFormat") ? 
+				(local.get(Calendar.MONTH) + 1) + "/" + local.get(Calendar.DATE) + "/" + local.get(Calendar.YEAR) :
+				local.get(Calendar.DATE) + "/" + (local.get(Calendar.MONTH) + 1) + "/" + local.get(Calendar.YEAR);
 	}
 }

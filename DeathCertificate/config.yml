@@ -1,4 +1,6 @@
 Options:
     IgnoreSuicide: false
-    AmericanDateFormat: true
     RequirePermission: false
+TimeAndDate:
+    AmericanDateFormat: true
+    TimeZone: Default
