@@ -1,6 +1,7 @@
 Options:
     IgnoreSuicide: false
     RequirePermission: false
+    PvPKillsOnly: false
 TimeAndDate:
     AmericanDateFormat: true
     TimeZone: Default
