@@ -80,27 +80,28 @@ public class DeathCertificateWriter
 			return this.getFriendlyMobName(event, event2);
 		}
 		
-		switch (event.getEntity().getLastDamageCause().getCause())
-		{
-		case BLOCK_EXPLOSION: return "an Explosion";
-		case CONTACT: return "a Cactus";
-		case CUSTOM: return "Herobrine";
-		case DROWNING: return "Drowning";
-		case ENTITY_EXPLOSION: return "a Creeper";
-		case FALL: return "Falling";
-		case FIRE: return "Fire";
-		case FIRE_TICK: return "Fire";
-		case LAVA: return "Lava";
-		case LIGHTNING: return "Lightning";
-		case MAGIC: return "Magic";
-		case MELTING: return "Melting?";
-		case POISON: return "Poison";
-		case STARVATION: return "Starvation";
-		case SUFFOCATION: return "Suffocation";
-		case SUICIDE: return "Suicide";
-		case VOID: return "the Void";
-		default: break;
-		}
+		if (event.getEntity().getLastDamageCause() != null)
+			switch (event.getEntity().getLastDamageCause().getCause())
+			{
+			case BLOCK_EXPLOSION: return "an Explosion";
+			case CONTACT: return "a Cactus";
+			case CUSTOM: return "Herobrine";
+			case DROWNING: return "Drowning";
+			case ENTITY_EXPLOSION: return "a Creeper";
+			case FALL: return "Falling";
+			case FIRE: return "Fire";
+			case FIRE_TICK: return "Fire";
+			case LAVA: return "Lava";
+			case LIGHTNING: return "Lightning";
+			case MAGIC: return "Magic";
+			case MELTING: return "Melting?";
+			case POISON: return "Poison";
+			case STARVATION: return "Starvation";
+			case SUFFOCATION: return "Suffocation";
+			case SUICIDE: return "Suicide";
+			case VOID: return "the Void";
+			default: break;
+			}
 		
 		return "Dying";
 	}
