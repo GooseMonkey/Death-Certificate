@@ -63,26 +63,20 @@ public class DeathCertificateWriter
 		}
 		
 		if (event.getEntity().getLastDamageCause() != null)
-			switch (event.getEntity().getLastDamageCause().getCause())
-			{
-			case BLOCK_EXPLOSION: return "an Explosion";
-			case CONTACT: return "a Cactus";
-			case CUSTOM: return "Herobrine";
-			case DROWNING: return "Drowning";
-			case ENTITY_EXPLOSION: return "a Creeper";
-			case FALL: return "Falling";
-			case FIRE: return "Fire";
-			case FIRE_TICK: return "Fire";
-			case LAVA: return "Lava";
-			case LIGHTNING: return "Lightning";
-			case MAGIC: return "Magic";
-			case MELTING: return "Melting?";
-			case POISON: return "Poison";
-			case STARVATION: return "Starvation";
-			case SUFFOCATION: return "Suffocation";
-			case SUICIDE: return "Suicide";
-			case VOID: return "the Void";
-			default: break;
+			switch (event.getEntity().getLastDamageCause().getCause()) {
+				case BLOCK_EXPLOSION: return "an Explosion";
+				case CONTACT: return "a Cactus";
+				case ENTITY_EXPLOSION: return "a Creeper";
+				case CUSTOM: return "Herobrine";
+				case FALL: return "Falling";
+				case FIRE_TICK: return "Fire";
+				case VOID: return "the Void"; //Really shouldn't be readable when your stuff falls into the void, no?
+				default: 
+					String[] name =  event.getEntity().getLastDamageCause().getCause().name().toLowerCase().split("_");
+					String ret = "";
+					for(String str: name)
+						ret += " " + str.substring(0,1).toUpperCase() + str.substring(1);
+					return ret.trim();
 			}
 		
 		return null;
