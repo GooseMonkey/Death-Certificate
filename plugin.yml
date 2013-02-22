@@ -2,7 +2,7 @@ name: DeathCertificate
 main: me.goosemonkey.deathcertificate.DeathCertificate
 version: 0.1
 
-author: GooseMonkey97
+authors: [GooseMonkey97, meiamsome]
 website: http://dev.bukkit.org/server-mods/death-certificate/
 
 commands:
