@@ -21,6 +21,7 @@ public class DeathCertificate extends JavaPlugin
 		this.getConfig().options().header(this.header);
 		this.saveConfig();
 		reload();
+		DeathCertificatePlayerHandler.plugin = this;
 		this.getServer().getPluginManager().registerEvents(new DeathCertificateListener(this), this);
 	}
 	

@@ -43,9 +43,11 @@ public class DeathCertificateWriter
 		lore.add("Identity: "+p.getName());
 		String killer = getKiller(event);
 		lore.add("Cause of Death"+ (killer == null? " could not be determined." : (": " + killer)));
-		lore.add("Volume: ");
 		meta.setLore(lore);
 		meta.setPages(getBookPages(event));
+		
+		
+		
 		book.setItemMeta(meta);
 		return book;
 	}
@@ -117,7 +119,7 @@ public class DeathCertificateWriter
 		
 		/*
 		 * Code to show items dropped on death.
-		 */
+		 *
 		if (event.getDrops().size() != 0){
 			int done = 0;
 			StringBuilder n = new StringBuilder();
@@ -133,7 +135,7 @@ public class DeathCertificateWriter
 			if(n.length() != 0) {
 				i.add(n.toString());
 			}
-		}
+		}*/
 		return i;
 	}
 	
