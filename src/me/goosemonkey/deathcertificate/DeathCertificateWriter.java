@@ -46,6 +46,10 @@ public class DeathCertificateWriter
 		meta.setLore(lore);
 		meta.setPages(getBookPages(event));
 		
+		DeathCertificatePlayerHandler dcph = DeathCertificatePlayerHandler.getHandler(p);
+		if(dcph != null) {
+			meta = dcph.handleDeath(event, meta);
+		}
 		
 		
 		book.setItemMeta(meta);
