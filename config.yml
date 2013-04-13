@@ -5,3 +5,7 @@ Options:
 TimeAndDate:
     AmericanDateFormat: true
     TimeZone: Default
+Mortuary:
+    Default: Notch's Mortuary
+Details:
+    Enabled: true;

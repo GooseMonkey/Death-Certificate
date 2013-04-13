@@ -8,9 +8,7 @@ import java.util.TimeZone;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
@@ -37,7 +35,7 @@ public class DeathCertificateWriter
 		} else {
 			throw new Exception("No way to make a BookMeta!?");
 		}
-		meta.setAuthor(plugin.getMorturary(p.getLocation()));
+		meta.setAuthor(plugin.getMortuary(p.getLocation()));
 		meta.setTitle("Death Certificate");
 		List<String> lore = new ArrayList<String>();
 		lore.add("Identity: "+p.getName());
@@ -65,7 +63,7 @@ public class DeathCertificateWriter
 		{
 			EntityDamageByEntityEvent event2 = (EntityDamageByEntityEvent) event.getEntity().getLastDamageCause();
 			
-			return this.getFriendlyMobName(event, event2);
+			return plugin.getFriendlyMobName(event2);
 		}
 		
 		if (event.getEntity().getLastDamageCause() != null)
@@ -88,25 +86,6 @@ public class DeathCertificateWriter
 		return null;
 	}
 	
-	private String getFriendlyMobName(PlayerDeathEvent event, EntityDamageByEntityEvent event2)
-	{
-		Entity e = event2.getDamager();
-		if(e instanceof Projectile && ((Projectile) e).getShooter()!=null) e = ((Projectile) e).getShooter();
-		switch (e.getType()) {
-			case ENDER_DRAGON: return "the Enderdragon";
-			case PIG_ZOMBIE: return "a Zombie Pigman";
-			case PRIMED_TNT: return "TNT";
-			case SMALL_FIREBALL: return "a Fireball";
-			case SNOWMAN: return "a Snow Golem";
-			default:
-				String[] name =  e.getType().name().toLowerCase().split("_");
-				String ret = "a";
-				if(name[0].matches("[aeiou]")) ret += "n";
-				for(String str: name)
-					ret += " " + str.substring(0,1).toUpperCase() + str.substring(1);
-				return ret;
-		}
-	}
 	
 	private List<String> getBookPages(PlayerDeathEvent event)
 	{
@@ -120,26 +99,6 @@ public class DeathCertificateWriter
 		
 		i.add("Level " + ChatColor.RESET + ChatColor.DARK_GREEN + event.getEntity().getLevel() + "\n"
 				+ ChatColor.BLACK + "XP: " + ChatColor.DARK_GREEN + event.getEntity().getTotalExperience());
-		
-		/*
-		 * Code to show items dropped on death.
-		 *
-		if (event.getDrops().size() != 0){
-			int done = 0;
-			StringBuilder n = new StringBuilder();
-			n.append("Drops: \n" + ChatColor.RESET + "\n");
-			for(ItemStack item: event.getDrops()) {
-				n.append(item.getAmount() + " " + item.getType().name() + "\n");
-				if (++done % 10 == 0) {
-					i.add(n.toString());
-					n.setLength(0);
-				}
-			}
-			
-			if(n.length() != 0) {
-				i.add(n.toString());
-			}
-		}*/
 		return i;
 	}
 	

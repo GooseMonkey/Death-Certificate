@@ -63,4 +63,10 @@ public class DeathCertificateListener implements Listener
 		}
 		return false;
 	}
+	
+	@EventHandler(priority = EventPriority.MONITOR)
+	public void onPlayerDeath(EntityDamageEvent e) {
+		if(!(e.getEntity() instanceof Player)) return;
+		DeathCertificatePlayerHandler.getHandler((Player)e.getEntity()).addDamage(e);
+	}
 }

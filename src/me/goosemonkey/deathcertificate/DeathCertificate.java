@@ -1,11 +1,16 @@
 package me.goosemonkey.deathcertificate;
 
+import java.io.File;
 import java.util.Calendar;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class DeathCertificate extends JavaPlugin
@@ -63,12 +68,38 @@ public class DeathCertificate extends JavaPlugin
 		return true;
 	}
 
-	public String getMorturary(Location location) {
-		// TODO Auto-generated method stub
-		return "test";
+	public String getMortuary(Location location) {
+		return getConfig().getString("Mortuary.Default");
+		//TODO: have different mortuaries.
 	}
 
 	public int[] getDateOrder() {
 		return dateOrder;
+	}
+
+	public File getFile(Player player) {
+		File f = new File(getDataFolder(), "players");
+		return new File(f, player.getName());
+	}
+	
+
+	public String getFriendlyMobName(EntityDamageByEntityEvent event2)
+	{
+		Entity e = event2.getDamager();
+		if(e instanceof Projectile && ((Projectile) e).getShooter()!=null) e = ((Projectile) e).getShooter();
+		switch (e.getType()) {
+			case ENDER_DRAGON: return "the Enderdragon";
+			case PIG_ZOMBIE: return "a Zombie Pigman";
+			case PRIMED_TNT: return "TNT";
+			case SMALL_FIREBALL: return "a Fireball";
+			case SNOWMAN: return "a Snow Golem";
+			default:
+				String[] name =  e.getType().name().toLowerCase().split("_");
+				String ret = "a";
+				if(name[0].matches("[aeiou]")) ret += "n";
+				for(String str: name)
+					ret += " " + str.substring(0,1).toUpperCase() + str.substring(1);
+				return ret;
+		}
 	}
 }
