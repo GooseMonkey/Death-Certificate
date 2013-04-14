@@ -1,0 +1,11 @@
+Options:
+    IgnoreSuicide: false
+    RequirePermission: false
+    PvPKillsOnly: false
+TimeAndDate:
+    AmericanDateFormat: true
+    TimeZone: Default
+Mortuary:
+    Default: Notch's Mortuary
+Details:
+    Enabled: true;
